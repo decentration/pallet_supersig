@@ -218,7 +218,7 @@ fn test_active_proposals_decrement_on_approve() {
 				Box::new(call)
 			));
 
-			// vote for the proposal from Alice
+			// vote for the proposal from Bob
 			assert_ok!(Supersig::approve_call(
 				RawOrigin::Signed(BOB()).into(),
 				supersig_account.clone(),
@@ -230,13 +230,14 @@ fn test_active_proposals_decrement_on_approve() {
 		});
 }
 
+// Test that no more than the max live proposals can be made 
 #[test]
 	fn test_propose_call_max_active_proposals() {
 		ExtBuilder::default()
 		.balances(vec![])
 		.build()
 		.execute_with(|| {
-			// create supersig account with BOB
+			// create supersig account with Alice
 			assert_ok!(Supersig::create_supersig(
 				RawOrigin::Signed(ALICE()).into(),
 				vec! {
@@ -272,7 +273,7 @@ fn test_active_proposals_decrement_on_approve() {
 				));
 			});
 	}
-
+	// Create multiple accounts and check that the max calls limit is per account and not global. 
 	#[test]
 	fn test_propose_call_active_proposals_multiple_accounts() {
 		ExtBuilder::default()
@@ -369,6 +370,7 @@ fn test_active_proposals_decrement_on_approve() {
 		}
 	);
 }
+
 #[test]
 	fn test_remove_call_active_proposals() {
 		ExtBuilder::default()
